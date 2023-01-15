@@ -169,15 +169,13 @@ public class BlockMock implements Block
 	@Override
 	public byte getLightLevel()
 	{
-		// TODO Auto-generated method stub
-		throw new UnimplementedOperationException();
+		return 0x10;
 	}
 
 	@Override
 	public byte getLightFromSky()
 	{
-		// TODO Auto-generated method stub
-		throw new UnimplementedOperationException();
+		return 0x20;
 	}
 
 	@Override
