@@ -94,6 +94,22 @@ jacoco {
 group = 'com.github.seeseemelk'
 version = this.getVersion()
 
+try {
+	apply from: 'private.properties.gradle'
+}
+catch (Exception exception) {
+	println("You have to create file \"private.properties.gradle\" in project root with properties \"gpr.xgn.user\" and \"gpr.xgn.key\"")
+}
+
+
+tasks.register('publishToXgnRepository') {
+	group = 'publishing'
+	description = 'Publishes all Maven publications to the XGNetwork Maven repository.'
+	dependsOn tasks.withType(PublishToMavenRepository).matching {
+		it.repository == publishing.repositories.xgnetwork
+	}
+}
+
 nexusPublishing {
 	repositories {
 		sonatype {
@@ -104,6 +120,16 @@ nexusPublishing {
 }
 
 publishing {
+	repositories {
+		maven {
+			name = "xgnetwork"
+			url = uri("https://maven.pkg.github.com/XGNetwork/MockBukkit")
+			credentials {
+				username = xgnAuthUser
+				password = xgnAuthKey
+			}
+		}
+	}
 	publications {
 		mockBukkit(MavenPublication) {
 			artifactId = "MockBukkit-v${gradle.ext.apiVersion}"
@@ -127,6 +153,10 @@ publishing {
 				}
 				developers {
 					developer {
+						id = 'XglockMan'
+						email = 'info@xglockman.eu'
+					}
+					developer {
 						id = 'seeseemelk'
 						name = 'Sebastiaan de Schaetzen'
 						email = 'sebastiaan.de.schaetzen@gmail.com'
@@ -136,6 +166,8 @@ publishing {
 		}
 	}
 }
+
+
 
 publishToMavenLocal {
 	doLast {

@@ -207,3 +207,7 @@ Temporary Items
 
 # Ignore server folder
 server/
+
+# Private properties files
+private.properties.gradle
+
